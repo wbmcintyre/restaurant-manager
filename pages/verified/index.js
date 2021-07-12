@@ -1,10 +1,10 @@
-import WrapperContainer from "../../components/ui/containers/WrapperContainer";
-import OrderNowLink from "../../components/ui/OrderNowLink";
+import FlexContainer from "../../components/ui/containers/FlexContainer";
+import OrderNowLink from "../../components/ui/Links/OrderNowLink";
 
 export default function VerifiedPage() {
   return (
-    <WrapperContainer>
-      <WrapperContainer direction="column" align="center">
+    <FlexContainer>
+      <FlexContainer direction="column" align="center">
         <h1>Your account has been verified!</h1>
         <p>
           Thank you for setting up an account. Please feel free to browse our
@@ -13,7 +13,7 @@ export default function VerifiedPage() {
         <OrderNowLink margin="2rem 0 0 0" href="/menu">
           Menu
         </OrderNowLink>
-      </WrapperContainer>
-    </WrapperContainer>
+      </FlexContainer>
+    </FlexContainer>
   );
 }

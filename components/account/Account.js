@@ -30,17 +30,27 @@ function Account() {
   return (
     <BorderedColumnContainer>
       <FormSection padding="2rem" onSubmit={updateAccount}>
-        <FormInput type="text" name="name" ref={nameRef} value={userName}>
+        <FormInput
+          type="text"
+          name="name"
+          ref={nameRef}
+          defaultValue={userName}
+        >
           Name:
         </FormInput>
-        <FormInput type="email" name="email" ref={emailRef} value={userEmail}>
+        <FormInput
+          type="email"
+          name="email"
+          ref={emailRef}
+          defaultValue={userEmail}
+        >
           Email:
         </FormInput>
         <FormInput
           type="text"
           name="address"
           ref={addressRef}
-          value={userAddress}
+          defaultValue={userAddress}
         >
           Address:
         </FormInput>

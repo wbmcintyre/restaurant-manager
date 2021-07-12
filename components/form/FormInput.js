@@ -27,7 +27,7 @@ const FormInput = React.forwardRef((props, ref) => {
         name={props.name}
         type={props.type}
         required
-        value={props.value}
+        defaultValue={props.defaultValue}
       />
     </>
   );

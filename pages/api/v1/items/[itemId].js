@@ -3,13 +3,14 @@ import {
   updateByBody,
   deleteOne,
 } from "../../../../lib/handlerFactory";
+import { verifyAdmin } from "../../../../lib/auth";
 
 async function itemIdHandler(req, res) {
   const verifiedAdmin = await verifyAdmin(req);
   if (req.method === "PATCH") {
     if (!verifiedAdmin) {
       res.status(401).json({
-        message: "Please make sure you are signed into your account",
+        message: "Invalid credentials",
       });
       return;
     }
