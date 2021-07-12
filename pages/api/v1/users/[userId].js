@@ -1,8 +1,13 @@
-import { updateByBody } from "../../../../lib/handlerFactory";
-import { verifyJWT } from "../../../../lib/auth";
+import {
+  updateByBody,
+  getOne,
+  deleteOne,
+} from "../../../../lib/handlerFactory";
+import { verifyAdmin, verifyJWT } from "../../../../lib/auth";
 
 async function userIdHandler(req, res) {
   const verifiedUser = await verifyJWT(req);
+  const verifiedAdmin = await verifyAdmin(req);
   if (req.method === "PATCH") {
     if (!verifiedUser) {
       res.status(401).json({
@@ -29,9 +34,25 @@ async function userIdHandler(req, res) {
       });
       return;
     }
+  } else if (req.method === "GET") {
+    if (!verifiedAdmin) {
+      res.status(401).json({
+        message: "Invalid credentials",
+      });
+      return;
+    }
+    await getOne(req, res, "users", { _id: req.query.userId });
+  } else if (req.method === "DELETE") {
+    if (!verifiedAdmin) {
+      res.status(401).json({
+        message: "Invalid credentials",
+      });
+      return;
+    }
+    await deleteOne(req, res, "users", { _id: req.query.userId });
   } else {
     res.status(422).json({
-      message: "This path is only for PATCH requests",
+      message: "This path is only for GET, PATCH, and DELETE requests",
     });
   }
 }
