@@ -8,7 +8,7 @@ const BorderedColumnContainer = styled.div`
   padding: 0;
   border: 2px solid black;
   border-radius: 5px;
-  width: 20%;
+  width: ${(props) => props.width || "20%"}; ;
 `;
 
 export default BorderedColumnContainer;
