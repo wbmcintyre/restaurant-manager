@@ -1,9 +1,50 @@
-html,
+:root {
+  --primary: #f0ee5f;
+  --secondary: #f0484b;
+  --third: #78c2f0;
+  --fourth: #a3a131;
+  --fifth: #a3393b;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+@media only screen and (max-width: 75em) {
+  /* 1200px */
+  html {
+    font-size: 56.25%; /* 1rem = 9px */
+  }
+}
+@media only screen and (max-width: 56.25em) {
+  /* 900px */
+  html {
+    font-size: 50%; /* 1rem = 8px */
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  /*600px */
+  html {
+    font-size: 30%; /* 1rem = 4.8px */
+  }
+}
+
+@media only screen and (min-width: 112.5em) {
+  /* 1800 px */
+  html {
+    font-size: 75%; /*1rem = 12px*/
+  }
+}
+
 body {
-  padding: 0;
-  margin: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: #000;
 }
 
 a {
@@ -11,6 +52,10 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
