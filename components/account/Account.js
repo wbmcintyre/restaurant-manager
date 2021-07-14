@@ -55,7 +55,7 @@ function Account() {
           Address:
         </FormInput>
         <UserImage id="userImage" src={userImage} alt="Profile Image" />
-        <FormInput type="file" name="image" ref={imageRef}>
+        <FormInput type="file" accept="image/*" name="photo" ref={imageRef}>
           Choose new photo:
         </FormInput>
         <ButtonSquare margin="2rem">Update</ButtonSquare>

@@ -1,9 +1,6 @@
-import {
-  updateByBody,
-  getOne,
-  deleteOne,
-} from "../../../../lib/handlerFactory";
+import { updateOne, getOne, deleteOne } from "../../../../lib/handlerFactory";
 import { verifyAdmin, verifyJWT } from "../../../../lib/auth";
+import { setupFormDataParser } from "../../../../lib/handlerFactory";
 
 async function userIdHandler(req, res) {
   const verifiedUser = await verifyJWT(req);
@@ -15,19 +12,26 @@ async function userIdHandler(req, res) {
       });
       return;
     }
-    if (String(req.query.userId) === String(verifiedUser._id)) {
-      try {
-        await updateByBody(req, res, "users", ["name", "address", "email"], {
-          _id: req.query.userId,
-        });
-        //check for image being sent -> add image to server -> add image directory to filteredBody[image] before updating
-      } catch (err) {
-        console.log(err);
-        res.status(500).json({
-          message: "Something went wrong when updating in the database",
-        });
-        return;
-      }
+    //check if the user requesting the change is the user that is being changed
+    if (
+      String(req.query.userId) === String(verifiedUser._id) ||
+      verifiedAdmin
+    ) {
+      await setupFormDataParser(req, async () => {
+        try {
+          await updateOne(req, res, req.query.userId, "users", [
+            "name",
+            "address",
+            "email",
+          ]);
+        } catch (err) {
+          console.log(err);
+          res.status(500).json({
+            message: "Something went wrong when updating the database",
+          });
+          return;
+        }
+      });
     } else {
       res.status(401).json({
         message: "The token sent does not match the account being updated",
@@ -58,3 +62,9 @@ async function userIdHandler(req, res) {
 }
 
 export default userIdHandler;
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../../../../lib/db";
 import { createAndSendToken } from "../../../../lib/auth";
 import { hashPassword } from "../../../../lib/auth";
+import path from "path";
 
 async function handler(req, res) {
   //User Sign UP
@@ -57,6 +58,7 @@ async function handler(req, res) {
         email,
         name,
         password: await hashPassword(password),
+        image: path.join(".", "img", "users", "default-user.png"),
       });
 
       //send response with user and jwt for being signed in

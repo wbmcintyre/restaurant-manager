@@ -1,9 +1,6 @@
-import {
-  getOne,
-  updateByBody,
-  deleteOne,
-} from "../../../../lib/handlerFactory";
+import { getOne, updateOne, deleteOne } from "../../../../lib/handlerFactory";
 import { verifyAdmin } from "../../../../lib/auth";
+import { setupFormDataParser } from "../../../../lib/handlerFactory";
 
 async function itemIdHandler(req, res) {
   const verifiedAdmin = await verifyAdmin(req);
@@ -14,25 +11,22 @@ async function itemIdHandler(req, res) {
       });
       return;
     }
-
-    try {
-      await updateByBody(
-        req,
-        res,
-        "items",
-        ["name", "description", "price", "category"],
-        {
-          _id: req.query.itemId,
-        }
-      );
-      //check for image being sent -> add image to server -> add image directory to filteredBody[image] before updating
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({
-        message: "Something went wrong when updating in the database",
-      });
-      return;
-    }
+    await setupFormDataParser(req, async () => {
+      try {
+        await updateOne(req, res, req.query.itemId, "items", [
+          "name",
+          "description",
+          "price",
+          "category",
+        ]);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({
+          message: "Something went wrong when updating the database",
+        });
+        return;
+      }
+    });
   } else if (req.method === "GET") {
     await getOne(req, res, "items", { _id: req.query.itemId });
   } else if (req.method === "DELETE") {
@@ -51,3 +45,9 @@ async function itemIdHandler(req, res) {
 }
 
 export default itemIdHandler;
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

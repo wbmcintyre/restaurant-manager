@@ -1,5 +1,10 @@
-import { getAll, createOne } from "../../../../lib/handlerFactory";
+import {
+  getAll,
+  createOne,
+  setupFormDataParser,
+} from "../../../../lib/handlerFactory";
 import { verifyAdmin } from "../../../../lib/auth";
+import { assignPhoto } from "../../../../lib/handlerFactory";
 
 async function itemHandler(req, res) {
   const verifiedAdmin = await verifyAdmin(req);
@@ -10,13 +15,15 @@ async function itemHandler(req, res) {
       });
       return;
     }
-    await createOne(
-      req,
-      res,
-      "items",
-      ["name", "description", "price", "category"],
-      "name"
-    );
+    await setupFormDataParser(req, async () => {
+      const item = await createOne(
+        req,
+        res,
+        "items",
+        ["name", "description", "price", "category"],
+        "name"
+      );
+    });
   } else if (req.method === "GET") {
     await getAll(req, res, "items", {});
   } else {
@@ -27,3 +34,9 @@ async function itemHandler(req, res) {
 }
 
 export default itemHandler;
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
