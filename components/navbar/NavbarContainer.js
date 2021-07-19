@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const NavbarSection = styled.div`
   width: 100%;
+  height: 6rem;
   background-color: ${(props) => props.backgroundColor || "#000"};
   color: ${(props) => props.inputColor || "#fff"};
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);

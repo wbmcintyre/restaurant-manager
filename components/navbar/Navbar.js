@@ -5,13 +5,12 @@ import LogoLink from "../ui/Links/LogoLink";
 import OrderNowButton from "../ui/Links/OrderNowLink";
 import SignInLink from "../ui/Links/SignInLink";
 import LogoutButton from "../ui/Links/LogoutButton";
-import Cart from "../cart/CartSvg";
+import Cart from "../ui/Svgs/CartSvg";
 import { useEffect, useContext } from "react";
 import UserContext from "../../store/UserContext";
 
 function Navbar(props) {
   const context = useContext(UserContext);
-  console.log(context);
 
   useEffect(() => {
     (async () => {
@@ -62,7 +61,7 @@ function Navbar(props) {
     }
   };
 
-  const renderButtons = () => {
+  const renderSignIn = () => {
     if (context.user?.id) {
       return (
         <LogoutButton
@@ -105,7 +104,7 @@ function Navbar(props) {
           <OrderNowButton href="/menu" proportion="1.5">
             Order Now
           </OrderNowButton>
-          {renderButtons()}
+          {renderSignIn()}
         </NavbarSubContainer>
       </NavbarContainer>
     </NavbarSection>

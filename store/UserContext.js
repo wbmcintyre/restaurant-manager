@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 const UserContext = createContext({
   userId: null,
-  cart: null,
+  cart: [],
   numItems: 0,
   signIn: function (userId) {},
   signOut: function () {},
@@ -17,6 +17,7 @@ export function UserContextProvider(props) {
   const [numItems, setNumItems] = useState(0);
 
   function addItem(cartItem) {
+    //check if item is in cart, if it is, add to the quantity instead (maybe apply same idea as remove cart??)
     setCart(cart.push(cartItem));
     setNumItems(numItems + cartItem.quantity);
   }
