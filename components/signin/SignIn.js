@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import BorderedColumnContainer from "../ui/containers/BorderedColumnContainer";
 import TabsSection from "./TabsSection";
 import Tab from "./Tab";
@@ -8,8 +8,10 @@ import FormError from "../form/FormError";
 import ButtonSquare from "../ui/Links/ButtonSquare";
 import style from "./SignIn.module.css";
 import router from "next/router";
+import UserContext from "../../store/UserContext";
 
 function SignIn() {
+  const context = useContext(UserContext);
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
   const signUpTabRef = useRef();
@@ -37,11 +39,10 @@ function SignIn() {
         },
       });
 
-      console.log(response);
       const data = await response.json();
 
       if (response.status === 200 && data.user && data.token) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!set context so the user is not null
+        context.signIn(data.user);
         router.push("/");
       } else {
         setErrorMsg(data.message);
@@ -73,8 +74,8 @@ function SignIn() {
       });
       const data = await response.json();
 
-      if (data.status === 200 && data.user && data.token) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!set context so the user is not null
+      if (response.ok && data.user && data.token) {
+        context.signIn(data.user);
         router.push("/");
       } else {
         setErrorMsg(data.message);

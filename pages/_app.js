@@ -18,8 +18,10 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar />
-      <Component {...pageProps} />
+      <UserContextProvider>
+        <Navbar />
+        <Component {...pageProps} />
+      </UserContextProvider>
       <Footer />
     </WrapperBetweenContainer>
   );

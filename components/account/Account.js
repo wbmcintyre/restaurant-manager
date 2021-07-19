@@ -18,7 +18,7 @@ function Account() {
   function updateAccount() {
     console.log("Need to do this");
     //
-    //Patch request to api/v1/users/[userid]???
+    //Patch request to api/v1/users/[userid]
     //server side render with decoded jwt to get id
     //then do a post to update?
 

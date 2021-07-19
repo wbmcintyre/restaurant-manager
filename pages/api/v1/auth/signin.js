@@ -1,8 +1,7 @@
 import { connectToDatabase } from "../../../../lib/db";
 import { createAndSendToken, verifyPassword } from "../../../../lib/auth";
 
-async function handler(req, res) {
-  //User Sign UP
+async function signInHandler(req, res) {
   if (req.method === "POST") {
     const email = req.body.email;
     const password = req.body.password;
@@ -48,4 +47,4 @@ async function handler(req, res) {
   }
 }
 
-export default handler;
+export default signInHandler;

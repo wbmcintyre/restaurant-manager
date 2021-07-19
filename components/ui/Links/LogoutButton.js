@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import Link from "next/link";
 
-const Anchor = styled.a.attrs((props) => {})`
-  text-decoration: none;
+const LogoutButton = styled.button.attrs((props) => {})`
   cursor: pointer;
+  border: none;
   font-size: ${(props) =>
     props.proportion ? `${props.proportion}` + "rem" : "2rem"};
   font-weight: 700;
@@ -18,12 +17,4 @@ const Anchor = styled.a.attrs((props) => {})`
   border: none;
 `;
 
-function SignInLink(props) {
-  return (
-    <Link href={props.href} passHref>
-      <Anchor {...props}>{props.children}</Anchor>
-    </Link>
-  );
-}
-
-export default SignInLink;
+export default LogoutButton;

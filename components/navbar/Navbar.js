@@ -4,16 +4,90 @@ import NavbarSubContainer from "./NavbarSubContainer";
 import LogoLink from "../ui/Links/LogoLink";
 import OrderNowButton from "../ui/Links/OrderNowLink";
 import SignInLink from "../ui/Links/SignInLink";
+import LogoutButton from "../ui/Links/LogoutButton";
 import Cart from "../cart/CartSvg";
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import UserContext from "../../store/UserContext";
 
 function Navbar(props) {
-  const [isSignedIn, setSignedIn] = useState(false);
+  const context = useContext(UserContext);
+  console.log(context);
 
-  // useEffect(() => {
-  //   //check for jwt, then validate and sign in user, set signed in state
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("/api/v1/auth/verify", {
+        method: "POST",
+      });
+      const data = await response.json();
+
+      if (data?.user) {
+        context.signIn(data.user);
+        context.assignCart(data.user.cart);
+      } else {
+        const localCart = window.localStorage.getItem("cart");
+        if (localCart) {
+          context.assignCart(localCart);
+        }
+      }
+    })();
+
+    return async function cleanup() {
+      console.log("unmounting");
+      console.log(context);
+      if (context.user?.id) {
+        try {
+          //update the cart through /users/[id]
+          await fetch(`/api/v1/users/${context.user.id}`, {
+            method: "PATCH",
+            body: JSON.stringify({ cart: context.cart }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        } catch (err) {
+          window.localStorage.setItem("cart", context.cart);
+        }
+      } else {
+        window.localStorage.setItem("cart", context.cart);
+      }
+    };
+  }, []);
+
+  const logout = async () => {
+    try {
+      await fetch("/api/v1/auth/logout");
+    } catch (err) {
+      console.log("Unable to sign you out");
+    }
+  };
+
+  const renderButtons = () => {
+    if (context.user?.id) {
+      return (
+        <LogoutButton
+          proportion="1.5"
+          margin="1rem 2rem"
+          color="#000"
+          backgroundColor="#f0ee5f"
+          onClick={logout}
+        >
+          Logout
+        </LogoutButton>
+      );
+    } else {
+      return (
+        <SignInLink
+          proportion="1.5"
+          margin="1rem 2rem"
+          color="#000"
+          backgroundColor="#f0ee5f"
+          href="/signin"
+        >
+          Sign In
+        </SignInLink>
+      );
+    }
+  };
 
   return (
     <NavbarSection>
@@ -30,15 +104,7 @@ function Navbar(props) {
           <OrderNowButton href="/menu" proportion="1.5">
             Order Now
           </OrderNowButton>
-          <SignInLink
-            proportion="1.5"
-            margin="1rem 2rem"
-            color="#000"
-            backgroundColor="#f0ee5f"
-            href="/signin"
-          >
-            Sign In
-          </SignInLink>
+          {renderButtons()}
         </NavbarSubContainer>
       </NavbarContainer>
     </NavbarSection>

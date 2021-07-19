@@ -1,4 +1,9 @@
-import { updateOne, getOne, deleteOne } from "../../../../lib/handlerFactory";
+import {
+  updateOne,
+  getOne,
+  deleteOne,
+  getSelf,
+} from "../../../../lib/handlerFactory";
 import { verifyAdmin, verifyJWT } from "../../../../lib/auth";
 import { setupFormDataParser } from "../../../../lib/handlerFactory";
 
@@ -23,6 +28,7 @@ async function userIdHandler(req, res) {
             "name",
             "address",
             "email",
+            "cart",
           ]);
         } catch (err) {
           console.log(err);
@@ -39,13 +45,23 @@ async function userIdHandler(req, res) {
       return;
     }
   } else if (req.method === "GET") {
-    if (!verifiedAdmin) {
+    if (!verifiedUser) {
       res.status(401).json({
         message: "Invalid credentials",
       });
       return;
     }
-    await getOne(req, res, "users", { _id: req.query.userId });
+    if (
+      String(req.query.userId) === String(verifiedUser._id) ||
+      verifiedAdmin
+    ) {
+      await getOne(req, res, "users", { _id: req.query.userId });
+    } else {
+      res.status(401).json({
+        message: "Invalid authentication",
+      });
+      return;
+    }
   } else if (req.method === "DELETE") {
     if (!verifiedAdmin) {
       res.status(401).json({
