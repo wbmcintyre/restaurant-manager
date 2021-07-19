@@ -55,6 +55,7 @@ function Navbar(props) {
 
   const logout = async () => {
     try {
+      context.signOut();
       await fetch("/api/v1/auth/logout");
     } catch (err) {
       console.log("Unable to sign you out");

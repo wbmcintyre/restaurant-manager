@@ -37,7 +37,23 @@ export function UserContextProvider(props) {
     setUser(user);
   }
 
-  function signOut() {
+  async function signOut() {
+    if (user?.id) {
+      try {
+        //update the cart through /users/[id]
+        await fetch(`/api/v1/users/${user.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ cart: cart }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (err) {
+        window.localStorage.setItem("cart", cart);
+      }
+    } else {
+      window.localStorage.setItem("cart", cart);
+    }
     setUser(null);
   }
 

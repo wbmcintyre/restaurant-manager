@@ -15,7 +15,13 @@ async function userHandler(req, res) {
       });
       return;
     }
-    await getAll(req, res, "users", { email: 1, name: 1, address: 1 });
+    await getAll(req, res, "users", {
+      _id: 1,
+      email: 1,
+      name: 1,
+      address: 1,
+      cart: 1,
+    });
   } else {
     res.status(422).json({
       message: "This path is only for GET requests",

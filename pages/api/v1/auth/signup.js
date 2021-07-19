@@ -59,10 +59,11 @@ async function handler(req, res) {
         name,
         password: await hashPassword(password),
         image: path.join(".", "img", "users", "default-user.png"),
+        cart: [],
       });
 
       //send response with user and jwt for being signed in
-      createAndSendToken(user, 200, req, res);
+      createAndSendToken(user.ops[0], 200, req, res);
 
       client.close();
     } catch (err) {
