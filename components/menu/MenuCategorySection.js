@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const MenuCategorySection = styled.h4`
+const MenuCategorySection = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
@@ -12,6 +12,20 @@ const MenuCategorySection = styled.h4`
 
   & > * {
     width: 100%;
+  }
+
+  &::-webkit-scrollbar {
+      width: 1rem;
+      height: 1rem;
+
+      &-track {
+        background-color: transparent;
+      }
+
+      &-thumb {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
   }
 `;
 

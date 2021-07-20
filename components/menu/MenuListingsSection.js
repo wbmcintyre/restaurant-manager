@@ -1,13 +1,10 @@
 import styled from "styled-components";
 
-const MenuListingsSection = styled.h4`
+const MenuListingsSection = styled.div`
   display: grid;
-  justify-content: start;
-  align-items: center;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(auto-fill, 1fr);
   padding: 0;
-  overflow-x: scroll;
-  -ms-scroll-snap-type: x mandatory;
-  scroll-snap-type: x mandatory;
   width: ${(props) => props.width || "100%"};
 `;
 

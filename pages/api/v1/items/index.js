@@ -2,6 +2,7 @@ import {
   getAll,
   createOne,
   setupFormDataParser,
+  getAllGroupBy,
 } from "../../../../lib/handlerFactory";
 import { verifyAdmin } from "../../../../lib/auth";
 import { assignPhoto } from "../../../../lib/handlerFactory";
@@ -20,7 +21,7 @@ async function itemHandler(req, res) {
         req,
         res,
         "items",
-        ["name", "description", "price", "category"],
+        ["name", "description", "price", "category", "priority"],
         "name"
       );
     });

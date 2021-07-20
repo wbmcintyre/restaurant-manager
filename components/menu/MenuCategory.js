@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const MenuCategory = styled.button`
   border: none;
-  color: red;
+  color: ${(props) => (props.isSelected ? "red" : "blue")};
   cursor: pointer;
   background-color: inherit;
   font-size: 2rem;

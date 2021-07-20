@@ -3,8 +3,11 @@ import FlexContainer from "../../components/ui/containers/FlexContainer";
 import BorderedColumnContainer from "../../components/ui/containers/BorderedColumnContainer";
 import MenuCategory from "../../components/menu/MenuCategory";
 import MenuCategorySection from "../../components/menu/MenuCategorySection";
+import MenuItem from "../../components/menu/MenuItem";
+import MenuListingsSection from "../../components/menu/MenuListingsSection";
 
 export default function MenuPage(props) {
+  const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -15,28 +18,45 @@ export default function MenuPage(props) {
       });
       const { data } = await response.json();
 
-      console.log(data);
+      const filteredCategories = data.reduce((unique, item) => {
+        return unique.includes(item.category)
+          ? unique
+          : [...unique, item.category];
+      }, []);
+      setCategories(filteredCategories);
+      setCurrentCategory(filteredCategories[0]);
+      setItems(data);
     })();
   }, []);
 
-  const renderCategories = () => {};
+  const renderCategories = () => {
+    return categories.map((category, index) => {
+      return (
+        <MenuCategory
+          onClick={() => setCurrentCategory(category)}
+          isSelected={category === currentCategory}
+          key={index}
+        >
+          {category}
+        </MenuCategory>
+      );
+    });
+  };
 
-  const renderItems = () => {};
+  const renderItems = () => {
+    return items.map((item, index) => {
+      if (item.category === currentCategory) {
+        return <MenuItem item={item} key={item._id} />;
+      }
+      return false;
+    });
+  };
 
   return (
     <FlexContainer>
       <BorderedColumnContainer width="90%">
-        <MenuCategorySection>
-          <MenuCategory>Entrees</MenuCategory>
-          <MenuCategory>Drinks</MenuCategory>
-          <MenuCategory>Lunch</MenuCategory>
-          <MenuCategory>Category</MenuCategory>
-          <MenuCategory>Category</MenuCategory>
-          <MenuCategory>Category</MenuCategory>
-        </MenuCategorySection>
-        {/* <MenuListingsSection>
-          <MenuItem></MenuItem>
-        </MenuListingsSection> */}
+        <MenuCategorySection>{renderCategories()}</MenuCategorySection>
+        <MenuListingsSection>{renderItems()}</MenuListingsSection>
       </BorderedColumnContainer>
     </FlexContainer>
   );
