@@ -59,7 +59,7 @@ async function handler(req, res) {
         name,
         password: await hashPassword(password),
         image: path.join(".", "img", "users", "default-user.png"),
-        cart: [],
+        cart: {},
       });
 
       //send response with user and jwt for being signed in

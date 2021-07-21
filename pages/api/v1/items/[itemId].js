@@ -18,6 +18,7 @@ async function itemIdHandler(req, res) {
           "description",
           "price",
           "category",
+          "priority",
         ]);
       } catch (err) {
         console.log(err);

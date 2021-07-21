@@ -18,38 +18,12 @@ function Navbar(props) {
         method: "POST",
       });
       const data = await response.json();
-
       if (data?.user) {
         context.signIn(data.user);
-        context.assignCart(data.user.cart);
       } else {
-        const localCart = window.localStorage.getItem("cart");
-        if (localCart) {
-          context.assignCart(localCart);
-        }
+        context.signOut();
       }
     })();
-
-    return async function cleanup() {
-      console.log("unmounting");
-      console.log(context);
-      if (context.user?.id) {
-        try {
-          //update the cart through /users/[id]
-          await fetch(`/api/v1/users/${context.user.id}`, {
-            method: "PATCH",
-            body: JSON.stringify({ cart: context.cart }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        } catch (err) {
-          window.localStorage.setItem("cart", context.cart);
-        }
-      } else {
-        window.localStorage.setItem("cart", context.cart);
-      }
-    };
   }, []);
 
   const logout = async () => {

@@ -2,10 +2,8 @@ import {
   getAll,
   createOne,
   setupFormDataParser,
-  getAllGroupBy,
 } from "../../../../lib/handlerFactory";
 import { verifyAdmin } from "../../../../lib/auth";
-import { assignPhoto } from "../../../../lib/handlerFactory";
 
 async function itemHandler(req, res) {
   const verifiedAdmin = await verifyAdmin(req);

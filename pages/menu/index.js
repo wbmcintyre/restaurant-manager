@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../store/UserContext";
 import FlexContainer from "../../components/ui/containers/FlexContainer";
 import BorderedColumnContainer from "../../components/ui/containers/BorderedColumnContainer";
 import MenuCategory from "../../components/menu/MenuCategory";
@@ -10,6 +11,7 @@ export default function MenuPage(props) {
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(null);
+  const context = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
@@ -43,10 +45,18 @@ export default function MenuPage(props) {
     });
   };
 
+  const addItemToCart = (item, quantity) => {
+    if (quantity > 0) {
+      context.addItem(item, quantity);
+    }
+  };
+
   const renderItems = () => {
     return items.map((item, index) => {
       if (item.category === currentCategory) {
-        return <MenuItem item={item} key={item._id} />;
+        return (
+          <MenuItem item={item} key={item._id} submitItem={addItemToCart} />
+        );
       }
       return false;
     });
