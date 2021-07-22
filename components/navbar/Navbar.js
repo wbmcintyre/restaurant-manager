@@ -103,7 +103,8 @@ function Navbar() {
             height="4rem"
             width="4rem"
             margin="0 0 0 2rem"
-          />
+            content={context.getNumItems() > 0 && `'${context.getNumItems()}'`}
+          ></CartLink>
           {renderButtons()}
         </NavbarSubContainer>
       </NavbarContainer>

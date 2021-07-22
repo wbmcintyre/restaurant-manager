@@ -2,28 +2,36 @@ import CartSvg from "../ui/Svgs/CartSvg";
 import styled from "styled-components";
 import Link from "next/link";
 
-const StyledCart = styled(CartSvg)`
+const CartContainer = styled.div`
   cursor: pointer;
-  margin: ${(props) => props.margin || "0"};
   position: relative;
+  margin: ${(props) => props.margin || "0"};
 
   &:after {
-    content: "";
+    content: ${(props) => props.content};
+    font-size: 0.8rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    background-color: red;
+    color: ${(props) => props.color || "#fff"};
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100px;
-    height: 100px;
-    background-color: green;
+    bottom: 0;
+    right: 0;
+
+    text-align: center;
   }
 `;
+const StyledCart = styled(CartSvg)``;
 
 const CartLink = (props) => {
   const { href, ...newProps } = props;
   return (
-    <Link href={href}>
-      <StyledCart {...newProps} />
-    </Link>
+    <CartContainer {...newProps}>
+      <Link href={href}>
+        <StyledCart width={props.width} height={props.height}></StyledCart>
+      </Link>
+    </CartContainer>
   );
 };
 
