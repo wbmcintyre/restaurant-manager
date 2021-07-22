@@ -3,9 +3,7 @@ import * as React from "react";
 function SvgShoppingCart(props) {
   return (
     <svg
-      height={512}
       viewBox="0 0 511.728 511.728"
-      width={512}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >

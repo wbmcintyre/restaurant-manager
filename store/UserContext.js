@@ -53,9 +53,9 @@ export function UserContextProvider(props) {
 
   async function updateStorage() {
     //either save information to database or local storage
-    if (user?.id) {
+    if (user?._id) {
       try {
-        await fetch(`/api/v1/users/${user.id}`, {
+        await fetch(`/api/v1/users/${user._id}`, {
           method: "PATCH",
           body: JSON.stringify({ cart: cart }),
           headers: {
@@ -75,7 +75,7 @@ export function UserContextProvider(props) {
   async function setupCart() {
     const localCart = JSON.parse(window.localStorage.getItem("cart"));
 
-    if (user?.cart && user?.id) {
+    if (user?.cart && user?._id) {
       //if there is a local cart, and the user's cart is empty, update user's cart with local storage
       if (
         Object.keys(localCart).length > 0 &&

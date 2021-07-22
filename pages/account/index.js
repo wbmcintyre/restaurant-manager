@@ -14,6 +14,7 @@ export default function AccountPage(props) {
   );
 }
 
+//only authorize users that are signed in to this url
 export async function getServerSideProps(context) {
   const { req, res } = context;
   if (req?.cookies?.jwt) {
@@ -21,26 +22,12 @@ export async function getServerSideProps(context) {
     const user = await getOneNoResponse("users", {
       _id: decodedId,
     });
-
-    //NOTE: cannot send json objects through getServerSideProps, so stringify here and parse on the other end
-    if (user) {
-      return {
-        props: {
-          user: {
-            name: user.name,
-            email: user.email,
-            address: user.address ? user.address : null,
-            image: user.image,
-            _id: JSON.stringify(user._id),
-          },
-        },
-      };
-    }
+  } else {
+    res.setHeader("location", "/signin");
+    res.statusCode = 302;
+    res.end();
   }
 
-  res.setHeader("location", "/signin");
-  res.statusCode = 302;
-  res.end();
   return {
     props: {},
   };

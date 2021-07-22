@@ -5,6 +5,7 @@ const UserImage = styled.img`
   width: ${(props) => props.width || "7.5rem"};
   border-radius: 100%;
   margin: ${(props) => props.margin || "0"};
+  cursor: ${(props) => props.cursor || "auto"};
 `;
 
 export default UserImage;

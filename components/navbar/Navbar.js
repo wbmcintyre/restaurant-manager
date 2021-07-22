@@ -5,12 +5,15 @@ import LogoLink from "../ui/Links/LogoLink";
 import OrderNowButton from "../ui/Links/OrderNowLink";
 import SignInLink from "../ui/Links/SignInLink";
 import LogoutButton from "../ui/Links/LogoutButton";
-import Cart from "../ui/Svgs/CartSvg";
-import { useEffect, useContext } from "react";
+import UserImage from "../account/UserImage";
+import Link from "next/link";
+import CartLink from "./CartLink";
+import { useEffect, useContext, useState } from "react";
 import UserContext from "../../store/UserContext";
 
-function Navbar(props) {
+function Navbar() {
   const context = useContext(UserContext);
+  const [isUserSetup, setIsUserSetup] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -18,11 +21,13 @@ function Navbar(props) {
         method: "POST",
       });
       const data = await response.json();
+
       if (data?.user) {
         context.signIn(data.user);
       } else {
         context.signOut();
       }
+      setIsUserSetup(true);
     })();
   }, []);
 
@@ -35,31 +40,46 @@ function Navbar(props) {
     }
   };
 
-  const renderSignIn = () => {
-    if (context.user?.id) {
-      return (
-        <LogoutButton
-          proportion="1.5"
-          margin="1rem 2rem"
-          color="#000"
-          backgroundColor="#f0ee5f"
-          onClick={logout}
-        >
-          Logout
-        </LogoutButton>
-      );
-    } else {
-      return (
-        <SignInLink
-          proportion="1.5"
-          margin="1rem 2rem"
-          color="#000"
-          backgroundColor="#f0ee5f"
-          href="/signin"
-        >
-          Sign In
-        </SignInLink>
-      );
+  const renderButtons = () => {
+    if (isUserSetup) {
+      if (context.user?._id) {
+        return (
+          <>
+            <Link href="/account">
+              <UserImage
+                height="4rem"
+                width="4rem"
+                margin="0 0 0 2rem"
+                cursor="pointer"
+                src={`${context.user.image}?${new Date().getTime()}`}
+                alt="Profile Image"
+              />
+            </Link>
+
+            <LogoutButton
+              proportion="1.5"
+              margin="1rem 2rem"
+              color="#000"
+              backgroundColor="#f0ee5f"
+              onClick={logout}
+            >
+              Logout
+            </LogoutButton>
+          </>
+        );
+      } else {
+        return (
+          <SignInLink
+            proportion="1.5"
+            margin="1rem 2rem"
+            color="#000"
+            backgroundColor="#f0ee5f"
+            href="/signin"
+          >
+            Sign In
+          </SignInLink>
+        );
+      }
     }
   };
 
@@ -78,7 +98,13 @@ function Navbar(props) {
           <OrderNowButton href="/menu" proportion="1.5">
             Order Now
           </OrderNowButton>
-          {renderSignIn()}
+          <CartLink
+            href="/checkout"
+            height="4rem"
+            width="4rem"
+            margin="0 0 0 2rem"
+          />
+          {renderButtons()}
         </NavbarSubContainer>
       </NavbarContainer>
     </NavbarSection>
