@@ -17,7 +17,7 @@ const Label = styled.label`
   display: block;
 `;
 
-const FormInput = React.forwardRef((props, ref) => {
+const FormInput = React.forwardRef(function (props, ref) {
   return (
     <>
       <Label htmlFor={props.name}>{props.children}</Label>
@@ -27,7 +27,7 @@ const FormInput = React.forwardRef((props, ref) => {
         name={props.name}
         type={props.type}
         accept={props.accept}
-        required
+        required={props.required}
         defaultValue={props.defaultValue}
       />
     </>

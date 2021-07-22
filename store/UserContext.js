@@ -55,7 +55,6 @@ export function UserContextProvider(props) {
     //either save information to database or local storage
     if (user?.id) {
       try {
-        console.log(cart);
         await fetch(`/api/v1/users/${user.id}`, {
           method: "PATCH",
           body: JSON.stringify({ cart: cart }),
@@ -63,14 +62,11 @@ export function UserContextProvider(props) {
             "Content-Type": "application/json",
           },
         });
-        console.log("updating db", cart);
       } catch (err) {
         window.localStorage.setItem("cart", JSON.stringify(cart));
-        console.log("updating localErr", cart);
       }
     } else {
       window.localStorage.setItem("cart", JSON.stringify(cart));
-      console.log("updating local", cart);
     }
   }
 
@@ -89,12 +85,10 @@ export function UserContextProvider(props) {
         window.localStorage.setItem("cart", JSON.stringify({}));
       } else {
         setCart(user.cart);
-        console.log("db", user.cart);
       }
     } else {
       if (Object.keys(localCart).length > 0) {
         setCart(localCart);
-        console.log("local", localCart);
       }
     }
   }

@@ -89,10 +89,10 @@ function SignIn() {
   function renderSignIn() {
     return (
       <FormSection padding="2rem" onSubmit={signIn}>
-        <FormInput type="email" name="email" ref={emailRef}>
+        <FormInput type="email" name="email" ref={emailRef} required>
           Email:
         </FormInput>
-        <FormInput type="password" name="password" ref={passwordRef}>
+        <FormInput type="password" name="password" ref={passwordRef} required>
           Password:
         </FormInput>
         {errorMsg && <FormError>{errorMsg}</FormError>}
@@ -104,20 +104,21 @@ function SignIn() {
   function renderSignUp() {
     return (
       <FormSection padding="2rem" onSubmit={signUp}>
-        <FormInput type="email" name="email" ref={emailRef}>
+        <FormInput type="email" name="email" ref={emailRef} required>
           Email:
         </FormInput>
-        <FormInput type="password" name="password" ref={passwordRef}>
+        <FormInput type="password" name="password" ref={passwordRef} required>
           Password:
         </FormInput>
         <FormInput
           type="password"
           name="confirmPassword"
           ref={confirmPasswordRef}
+          required
         >
           Confirm Password:
         </FormInput>
-        <FormInput type="text" name="name" ref={nameRef}>
+        <FormInput type="text" name="name" ref={nameRef} required>
           Name:
         </FormInput>
         {errorMsg && <FormError>{errorMsg}</FormError>}

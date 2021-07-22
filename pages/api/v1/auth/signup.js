@@ -58,7 +58,14 @@ async function handler(req, res) {
         email,
         name,
         password: await hashPassword(password),
-        image: path.join(".", "img", "users", "default-user.png"),
+        image: path.join(
+          ".",
+          "api",
+          "v1",
+          "images",
+          "users",
+          "default-user.png"
+        ),
         cart: {},
       });
 
